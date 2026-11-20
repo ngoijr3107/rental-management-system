@@ -1,0 +1,24 @@
+import { defineStore } from 'pinia'
+
+let nextId = 1
+
+export const useToastStore = defineStore('toast', {
+  state: () => ({ items: [] }),
+
+  actions: {
+    push(message, tone = 'success') {
+      const id = nextId++
+      this.items.push({ id, message, tone })
+      setTimeout(() => this.dismiss(id), 4500)
+    },
+    success(message) {
+      this.push(message, 'success')
+    },
+    error(message) {
+      this.push(message, 'error')
+    },
+    dismiss(id) {
+      this.items = this.items.filter((item) => item.id !== id)
+    },
+  },
+})

@@ -1,0 +1,1177 @@
+/* ===============================================================
+   Rent Manager — design system
+   Every colour is a semantic token. Light and dark are two value
+   sets for the same names, so components never know which is on.
+   =============================================================== */
+
+:root {
+  /* Type */
+  --display: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  --body: 'Inter', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-base: 13px;
+  --text-md: 14px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --text-2xl: 26px;
+  --text-3xl: 32px;
+
+  /* Spacing rhythm — everything is a multiple of 4 */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+
+  --radius-lg: 20px;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-pill: 999px;
+
+  /* Text that sits on a filled --negative surface. */
+  --on-negative: #ffffff;
+
+  --sidebar-w: 244px;
+  --gutter: 12px;
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* ============================================================
+     RENTAL-SPECIFIC SEMANTIC TOKENS
+     These map to the base palette colors for consistency
+     ============================================================ */
+  --vacant: var(--neutral);
+  --vacant-wash: var(--neutral-wash);
+  --occupied: var(--positive);
+  --occupied-wash: var(--positive-wash);
+  --maintenance: var(--warning);
+  --maintenance-wash: var(--warning-wash);
+  --overdue: var(--negative);
+  --overdue-wash: var(--negative-wash);
+
+  /* Financial-specific colors */
+  --rent-due: #DC2626;
+  --rent-paid: #16A34A;
+  --rent-pending: #F59E0B;
+  --deposit: #3B82F6;
+
+  /* Premium / featured properties */
+  --gold: #D4A017;
+  --gold-wash: #FDF7E6;
+  --premium-gradient: linear-gradient(135deg, #D4A017 0%, #F5D87A 50%, #D4A017 100%);
+}
+
+/* --- Palettes ------------------------------------------------------
+   Three palettes x two modes. `:root` doubles as the default so the
+   page is never unpainted; the attribute selectors are more specific
+   and win once <html> carries data-palette / data-theme.
+   Every text/background pair below was verified at >= 4.5:1 (WCAG AA).
+   ------------------------------------------------------------------- */
+:root,
+[data-palette='corporate'][data-theme='light'] {
+  color-scheme: light;
+  --bg: #F8FAFC;
+  --bg-tint: radial-gradient(1200px 600px at 100% -20%, #EAF5FB 0%, transparent 70%);
+  --surface: #FFFFFF;
+  --surface-2: #F9F9FA;
+  --surface-3: #F2F2F3;
+  --line: #E5E5E8;
+  --line-strong: #C5C7CC;
+  --text: #0F172A;
+  --text-muted: #475569;
+  --text-faint: #475569;
+  --accent: #0EA5E9;
+  --accent-ink: #0A77A8;
+  --accent-hover: #0C8EC8;
+  --accent-wash: #E7F6FD;
+  --accent-contrast: #0F172A;
+  --money: #16803D;
+  --money-wash: #E9F9EF;
+  --positive: #16803D;
+  --positive-wash: #E9F9EF;
+  --warning: #8F6D05;
+  --warning-wash: #FDF7E6;
+  --negative: #C63838;
+  --negative-wash: #FDECEC;
+  --neutral: #316CCC;
+  --neutral-wash: #EBF3FE;
+  --sidebar-bg: #1E293B;
+  --sidebar-text: #DCDEE1;
+  --sidebar-text-strong: #FFFFFF;
+  --sidebar-text-faint: #B1B5BB;
+  --sidebar-hover: #323C4D;
+  --sidebar-line: #424B5A;
+  --scrim: rgba(15, 23, 42, 0.45);
+  --skeleton: linear-gradient(90deg, #F9F9FA 25%, #F2F2F3 50%, #F9F9FA 75%);
+  --shadow-1: 0 1px 2px rgba(15,23,42,0.06);
+  --shadow-2: 0 1px 2px rgba(15,23,42,0.05), 0 10px 28px -14px rgba(15,23,42,0.22);
+  --shadow-3: 0 18px 48px -16px rgba(15,23,42,0.34);
+
+  /* Role-based accent colors - defaults to manager view */
+  --role-accent: var(--accent);
+  --role-accent-hover: var(--accent-hover);
+  --role-accent-wash: var(--accent-wash);
+}
+
+[data-palette='corporate'][data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0F172A;
+  --bg-tint: radial-gradient(1200px 600px at 100% -20%, #122338 0%, transparent 70%);
+  --surface: #1E293B;
+  --surface-2: #293345;
+  --surface-3: #343E4E;
+  --line: #3A4454;
+  --line-strong: #575F6D;
+  --text: #F8FAFC;
+  --text-muted: #94A3B8;
+  --text-faint: #94A3B8;
+  --accent: #38BDF8;
+  --accent-ink: #38BDF8;
+  --accent-hover: #54C6F9;
+  --accent-wash: #142E3E;
+  --accent-contrast: #0F172A;
+  --money: #4ADE80;
+  --money-wash: #17342A;
+  --positive: #4ADE80;
+  --positive-wash: #17342A;
+  --warning: #FACC15;
+  --warning-wash: #353118;
+  --negative: #F87171;
+  --negative-wash: #342128;
+  --neutral: #60A5FA;
+  --neutral-wash: #1B2A3F;
+  --sidebar-bg: #111827;
+  --sidebar-text: #A0A3A9;
+  --sidebar-text-strong: #FFFFFF;
+  --sidebar-text-faint: #7F838B;
+  --sidebar-hover: #262D3A;
+  --sidebar-line: #373D4A;
+  --scrim: rgba(3, 6, 12, 0.68);
+  --skeleton: linear-gradient(90deg, #293345 25%, #343E4E 50%, #293345 75%);
+  --shadow-1: 0 1px 2px rgba(0,0,0,0.45);
+  --shadow-2: 0 1px 2px rgba(0,0,0,0.4), 0 10px 28px -14px rgba(0,0,0,0.75);
+  --shadow-3: 0 18px 48px -16px rgba(0,0,0,0.85);
+
+  --role-accent: var(--accent);
+  --role-accent-hover: var(--accent-hover);
+  --role-accent-wash: var(--accent-wash);
+}
+
+[data-palette='eco'][data-theme='light'] {
+  color-scheme: light;
+  /* Warmer background for property photos to feel more inviting */
+  --bg: #F6F5F2;
+  --bg-tint: radial-gradient(1200px 600px at 100% -20%, #E8E3DA 0%, transparent 70%);
+  --surface: #FAFAF9;
+  --surface-2: #F4F4F3;
+  --surface-3: #EEEEED;
+  --line: #E1E1E1;
+  --line-strong: #C4C4C4;
+  --text: #18181B;
+  --text-muted: #52525B;
+  --text-faint: #52525B;
+  --accent: #10B981;
+  --accent-ink: #0B7E58;
+  --accent-hover: #0E9F6F;
+  --accent-wash: #E7F8F2;
+  --accent-contrast: #18181B;
+  --money: #16803D;
+  --money-wash: #E9F9EF;
+  --positive: #16803D;
+  --positive-wash: #E9F9EF;
+  --warning: #8C6B05;
+  --warning-wash: #FDF7E6;
+  --negative: #C63838;
+  --negative-wash: #FDECEC;
+  --neutral: #316CCC;
+  --neutral-wash: #EBF3FE;
+  --sidebar-bg: #14532D;
+  --sidebar-text: #DCE5E0;
+  --sidebar-text-strong: #FFFFFF;
+  --sidebar-text-faint: #D3DFD7;
+  --sidebar-hover: #296240;
+  --sidebar-line: #3A6F4F;
+  --scrim: rgba(15, 23, 42, 0.45);
+  --skeleton: linear-gradient(90deg, #F4F4F3 25%, #EEEEED 50%, #F4F4F3 75%);
+  --shadow-1: 0 1px 2px rgba(15,23,42,0.06);
+  --shadow-2: 0 1px 2px rgba(15,23,42,0.05), 0 10px 28px -14px rgba(15,23,42,0.22);
+  --shadow-3: 0 18px 48px -16px rgba(15,23,42,0.34);
+
+  --role-accent: var(--accent);
+  --role-accent-hover: var(--accent-hover);
+  --role-accent-wash: var(--accent-wash);
+}
+
+[data-palette='eco'][data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #09090B;
+  --bg-tint: radial-gradient(1200px 600px at 100% -20%, #0C1715 0%, transparent 70%);
+  --surface: #18181B;
+  --surface-2: #232326;
+  --surface-3: #2E2E31;
+  --line: #353537;
+  --line-strong: #515154;
+  --text: #F4F4F5;
+  --text-muted: #A1A1AA;
+  --text-faint: #A1A1AA;
+  --accent: #34D399;
+  --accent-ink: #34D399;
+  --accent-hover: #50D9A7;
+  --accent-wash: #122C23;
+  --accent-contrast: #09090B;
+  --money: #4ADE80;
+  --money-wash: #152E1F;
+  --positive: #4ADE80;
+  --positive-wash: #152E1F;
+  --warning: #FACC15;
+  --warning-wash: #332B0D;
+  --negative: #F87171;
+  --negative-wash: #321B1C;
+  --neutral: #60A5FA;
+  --neutral-wash: #192434;
+  --sidebar-bg: #064E3B;
+  --sidebar-text: #D2DFDC;
+  --sidebar-text-strong: #FFFFFF;
+  --sidebar-text-faint: #9BB8B1;
+  --sidebar-hover: #1C5E4D;
+  --sidebar-line: #2E6A5A;
+  --scrim: rgba(3, 6, 12, 0.68);
+  --skeleton: linear-gradient(90deg, #232326 25%, #2E2E31 50%, #232326 75%);
+  --shadow-1: 0 1px 2px rgba(0,0,0,0.45);
+  --shadow-2: 0 1px 2px rgba(0,0,0,0.4), 0 10px 28px -14px rgba(0,0,0,0.75);
+  --shadow-3: 0 18px 48px -16px rgba(0,0,0,0.85);
+
+  --role-accent: var(--accent);
+  --role-accent-hover: var(--accent-hover);
+  --role-accent-wash: var(--accent-wash);
+}
+
+/* ============================================================
+   STUDIO PALETTE — Promoted as default for boutique properties
+   This is the most distinctive and memorable option
+   ============================================================ */
+[data-palette='studio'][data-theme='light'] {
+  color-scheme: light;
+  --bg: #F3F1F5;
+  --bg-tint: radial-gradient(1200px 600px at 100% -20%, #EAE6ED 0%, transparent 70%);
+  --surface: #FFFFFF;
+  --surface-2: #FAF9FA;
+  --surface-3: #F3F3F3;
+  --line: #E7E6E8;
+  --line-strong: #CAC9CD;
+  --text: #241F2D;
+  --text-muted: #5C5468;
+  --text-faint: #5C5468;
+  /* Sophisticated purple accent — conveys luxury, creativity, and trust */
+  --accent: #5E3A73;
+  --accent-ink: #5E3A73;
+  --accent-hover: #513263;
+  --accent-wash: #EFEBF1;
+  --accent-contrast: #FFFFFF;
+  --money: #167E3C;
+  --money-wash: #E9F9EF;
+  --positive: #167E3C;
+  --positive-wash: #E9F9EF;
+  --warning: #8A6A05;
+  --warning-wash: #FDF7E6;
+  --negative: #C63838;
+  --negative-wash: #FDECEC;
+  --neutral: #316CCC;
+  --neutral-wash: #EBF3FE;
+  --sidebar-bg: #1C1725;
+  --sidebar-text: #C9C8CB;
+  --sidebar-text-strong: #FFFFFF;
+  --sidebar-text-faint: #A4A3A8;
+  --sidebar-hover: #302C39;
+  --sidebar-line: #403C48;
+  --scrim: rgba(15, 23, 42, 0.45);
+  --skeleton: linear-gradient(90deg, #FAF9FA 25%, #F3F3F3 50%, #FAF9FA 75%);
+  --shadow-1: 0 1px 2px rgba(15,23,42,0.06);
+  --shadow-2: 0 1px 2px rgba(15,23,42,0.05), 0 10px 28px -14px rgba(15,23,42,0.22);
+  --shadow-3: 0 18px 48px -16px rgba(15,23,42,0.34);
+
+  --role-accent: var(--accent);
+  --role-accent-hover: var(--accent-hover);
+  --role-accent-wash: var(--accent-wash);
+}
+
+[data-palette='studio'][data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #131019;
+  --bg-tint: radial-gradient(1200px 600px at 100% -20%, #1D1724 0%, transparent 70%);
+  --surface: #1B1723;
+  --surface-2: #25212D;
+  --surface-3: #302C38;
+  --line: #36323E;
+  --line-strong: #514D59;
+  --text: #ECE8F2;
+  --text-muted: #A79EB8;
+  --text-faint: #A79EB8;
+  --accent: #9D6FB8;
+  --accent-ink: #A479BD;
+  --accent-hover: #AB83C2;
+  --accent-wash: #241B2B;
+  --accent-contrast: #131019;
+  --money: #4ADE80;
+  --money-wash: #162E22;
+  --positive: #4ADE80;
+  --positive-wash: #162E22;
+  --warning: #FACC15;
+  --warning-wash: #342B10;
+  --negative: #F87171;
+  --negative-wash: #331B1F;
+  --neutral: #60A5FA;
+  --neutral-wash: #1A2437;
+  --sidebar-bg: #100D15;
+  --sidebar-text: #9D9C9F;
+  --sidebar-text-strong: #FFFFFF;
+  --sidebar-text-faint: #7F7D81;
+  --sidebar-hover: #26232A;
+  --sidebar-line: #36343A;
+  --scrim: rgba(3, 6, 12, 0.68);
+  --skeleton: linear-gradient(90deg, #25212D 25%, #302C38 50%, #25212D 75%);
+  --shadow-1: 0 1px 2px rgba(0,0,0,0.45);
+  --shadow-2: 0 1px 2px rgba(0,0,0,0.4), 0 10px 28px -14px rgba(0,0,0,0.75);
+  --shadow-3: 0 18px 48px -16px rgba(0,0,0,0.85);
+
+  --role-accent: var(--accent);
+  --role-accent-hover: var(--accent-hover);
+  --role-accent-wash: var(--accent-wash);
+}
+
+/* ============================================================
+   ROLE-BASED ACCENT COLORS
+   Tenants see calming blues; managers see action-oriented oranges
+   ============================================================ */
+
+/* Tenant-facing views — calming and trustworthy */
+[data-role='tenant'] {
+  --role-accent: #0EA5E9;
+  --role-accent-hover: #0C8EC8;
+  --role-accent-wash: #E7F6FD;
+}
+
+[data-role='tenant'][data-theme='dark'] {
+  --role-accent: #38BDF8;
+  --role-accent-hover: #54C6F9;
+  --role-accent-wash: #142E3E;
+}
+
+/* Manager-facing views — energetic and action-oriented */
+[data-role='manager'] {
+  --role-accent: #F97316;
+  --role-accent-hover: #EA580C;
+  --role-accent-wash: #FFF7ED;
+}
+
+[data-role='manager'][data-theme='dark'] {
+  --role-accent: #FB923C;
+  --role-accent-hover: #FDA362;
+  --role-accent-wash: #2D1F0A;
+}
+
+/* --- Override accent tokens with role-based values --------------- */
+:root {
+  --accent: var(--role-accent, #0EA5E9);
+  --accent-hover: var(--role-accent-hover, #0C8EC8);
+  --accent-wash: var(--role-accent-wash, #E7F6FD);
+}
+
+/* ============================================================
+   RESET & BASE STYLES
+   ============================================================ */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body, #app { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg-tint), var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--body);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  margin: 0;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.num {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.muted { color: var(--text-muted); }
+
+/* ============================================================
+   RENTAL STATUS BADGES
+   These map to the semantic tokens for property states
+   ============================================================ */
+.badge-vacant {
+  background: var(--vacant-wash);
+  color: var(--vacant);
+  border: 1px solid var(--vacant);
+}
+
+.badge-occupied {
+  background: var(--occupied-wash);
+  color: var(--occupied);
+  border: 1px solid var(--occupied);
+}
+
+.badge-maintenance {
+  background: var(--maintenance-wash);
+  color: var(--maintenance);
+  border: 1px solid var(--maintenance);
+}
+
+.badge-overdue {
+  background: var(--overdue-wash);
+  color: var(--overdue);
+  border: 1px solid var(--overdue);
+  animation: pulse-overdue 2s ease-in-out infinite;
+}
+
+@keyframes pulse-overdue {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Premium property badge with subtle gold gradient */
+.badge-premium {
+  background: var(--premium-gradient);
+  color: #FFFFFF;
+  border: none;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Financial status colors */
+.text-rent-due { color: var(--rent-due); }
+.text-rent-paid { color: var(--rent-paid); }
+.text-rent-pending { color: var(--rent-pending); }
+.text-deposit { color: var(--deposit); }
+
+.bg-rent-due { background: var(--rent-due); color: #fff; }
+.bg-rent-paid { background: var(--rent-paid); color: #fff; }
+.bg-rent-pending { background: var(--rent-pending); color: #fff; }
+.bg-deposit { background: var(--deposit); color: #fff; }
+
+/* --- Buttons --------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-family: var(--body);
+  font-size: var(--text-base);
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--shadow-1);
+  transition: background 0.16s var(--ease), border-color 0.16s var(--ease),
+  color 0.16s var(--ease), transform 0.1s var(--ease), box-shadow 0.16s var(--ease);
+}
+.btn:hover:not(:disabled) { background: var(--accent-hover); }
+.btn:active:not(:disabled) { transform: translateY(1px); box-shadow: none; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+
+.btn-ghost { background: var(--surface); border-color: var(--line-strong); color: var(--text); }
+.btn-ghost:hover:not(:disabled) {
+  background: var(--accent-wash);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.btn-quiet {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-muted);
+  padding: 0 10px;
+  box-shadow: none;
+}
+.btn-quiet:hover:not(:disabled) { background: var(--accent-wash); color: var(--accent-ink); }
+
+.btn-danger { background: var(--negative); color: #fff; }
+.btn-danger:hover:not(:disabled) { filter: brightness(1.1); background: var(--negative); }
+
+.btn-sm { height: 30px; padding: 0 12px; font-size: var(--text-sm); }
+
+.btn-gold {
+  background: var(--premium-gradient);
+  color: #FFFFFF;
+  border: none;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+.btn-gold:hover:not(:disabled) {
+  filter: brightness(1.05);
+  box-shadow: var(--shadow-2);
+}
+
+/* --- Form controls --------------------------------------------- */
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field > label { font-size: var(--text-sm); font-weight: 500; color: var(--text-muted); }
+
+.input, .select, .textarea {
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: var(--text-base);
+  transition: border-color 0.16s var(--ease), box-shadow 0.16s var(--ease), background 0.2s var(--ease);
+}
+
+.textarea { height: auto; min-height: 82px; padding: 10px 12px; resize: vertical; }
+
+.input:focus, .select:focus, .textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--accent-wash);
+}
+
+.input.is-invalid, .select.is-invalid, .textarea.is-invalid { border-color: var(--negative); }
+
+.field-error { font-size: var(--text-sm); color: var(--negative); }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+/* --- Cards & tables -------------------------------------------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-2);
+  transition: background 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+/* Premium card — subtle gold border for featured properties */
+.card-premium {
+  border-color: var(--gold);
+  border-width: 2px;
+  box-shadow: var(--shadow-2), 0 0 0 1px var(--gold);
+  position: relative;
+}
+.card-premium::before {
+  content: '✦ PREMIUM';
+  position: absolute;
+  top: -10px;
+  right: 16px;
+  background: var(--premium-gradient);
+  color: #fff;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 2px 12px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.05em;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-5) var(--sp-6);
+  border-bottom: 1px solid var(--line);
+}
+.card-head h3 { font-size: var(--text-lg); }
+
+/* ============================================================
+   FINANCIAL TABLE — Solid background for precision
+   Overrides glass effect for financial data
+   ============================================================ */
+.table-financial {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+}
+
+.table-financial th {
+  padding: 11px var(--sp-5);
+  border-bottom: 2px solid var(--line-strong);
+  background: var(--surface-2);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table-financial td {
+  padding: 14px var(--sp-5);
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.table-financial tbody tr:last-child td { border-bottom: none; }
+.table-financial tbody tr { transition: background 0.12s var(--ease); }
+.table-financial tbody tr:hover { background: var(--surface-2); }
+
+.table-financial .right { text-align: right; }
+.table-financial .num {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Regular table (keeps glass) ------------------------------ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table th {
+  padding: 11px var(--sp-5);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-align: left;
+  white-space: nowrap;
+}
+.table td { padding: 14px var(--sp-5); border-bottom: 1px solid var(--line); vertical-align: middle; }
+.table tbody tr:last-child td { border-bottom: none; }
+.table tbody tr { transition: background 0.12s var(--ease); }
+.table tbody tr:hover { background: var(--surface-2); }
+.table th:first-child { border-top-left-radius: var(--radius-sm); }
+.table th:last-child { border-top-right-radius: var(--radius-sm); }
+.table .right { text-align: right; }
+
+/* --- Tables on small screens ---------------------------------------
+   The table stays one element so columns keep their alignment; the
+   container scrolls instead. A fading edge signals there is more to
+   the right, which a bare overflow does not.
+   ------------------------------------------------------------------- */
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.table-scroll > .table,
+.table-scroll > .table-financial {
+  min-width: 560px;
+}
+
+.table-scroll::-webkit-scrollbar { height: 8px; }
+.table-scroll::-webkit-scrollbar-track { background: transparent; }
+.table-scroll::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: var(--radius-pill);
+}
+
+@media (max-width: 760px) {
+  .table-scroll {
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  }
+  .table-scroll:last-child { border-bottom-right-radius: var(--radius); }
+  .table th { padding: 10px var(--sp-4); }
+  .table td { padding: 12px var(--sp-4); }
+  .table-financial th { padding: 10px var(--sp-4); }
+  .table-financial td { padding: 12px var(--sp-4); }
+}
+
+/* Action cells hold a right-aligned group, not a run of loose buttons. */
+.table td.actions,
+.table-financial td.actions {
+  text-align: right;
+  white-space: nowrap;
+}
+.table td.actions > * + *,
+.table-financial td.actions > * + * { margin-left: 2px; }
+
+.row-link { cursor: pointer; }
+.strong-link { font-weight: 500; color: var(--accent-ink); }
+.strong-link:hover { text-decoration: underline; }
+
+/* --- Sidebar scrollbar -------------------------------------------------
+   Matches the sidebar theme colors. Targets the scrollable nav area.
+   ------------------------------------------------------------------- */
+.rm-nav::-webkit-scrollbar {
+  width: 5px;
+}
+
+.rm-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.rm-nav::-webkit-scrollbar-thumb {
+  background: var(--sidebar-text-faint);
+  border-radius: var(--radius-pill);
+  transition: background 0.2s var(--ease);
+}
+
+.rm-nav::-webkit-scrollbar-thumb:hover {
+  background: var(--sidebar-text);
+}
+
+/* Firefox scrollbar styling for sidebar navigation */
+.rm-nav {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sidebar-text-faint) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: var(--radius-pill);
+  transition: background 0.2s var(--ease);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+/* Optional: Add a subtle fade at the bottom of the scrollable area
+   to indicate there's more content when scrolled */
+.rm-nav {
+  mask-image: linear-gradient(to bottom, black 95%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, black 95%, transparent);
+}
+
+/* But disable the fade mask when the nav is collapsed
+   so the scrollbar and links remain fully visible */
+.rm-shell.is-collapsed .rm-nav {
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+
+/* --- Layout helpers -------------------------------------------- */
+.stack { display: flex; flex-direction: column; gap: var(--sp-6); }
+
+@media (max-width: 620px) {
+  .stack { gap: var(--sp-4); }
+  :root {
+    --text-3xl: 25px;
+    --text-2xl: 21px;
+  }
+}
+.row { display: flex; align-items: center; gap: var(--sp-2); }
+.row-wrap { flex-wrap: wrap; }
+.spacer { flex: 1; }
+
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4); }
+@media (max-width: 720px) { .grid-2 { grid-template-columns: minmax(0, 1fr); } }
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  align-items: flex-end;
+  padding: var(--sp-5) var(--sp-6);
+  border-bottom: 1px solid var(--line);
+}
+.filters .field { min-width: 158px; }
+
+@media (max-width: 620px) {
+  .card-head,
+  .filters {
+    padding: var(--sp-4);
+  }
+  .card-head { flex-wrap: wrap; }
+  /* Stacked filters beat three cramped ones side by side. */
+  .filters .field { min-width: 0; flex: 1 1 100%; }
+  .filters .btn { width: 100%; }
+}
+
+/* --- Skeleton loading ------------------------------------------ */
+.skeleton {
+  border-radius: 5px;
+  background: var(--skeleton);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+/* --- Route transition ------------------------------------------ */
+.print-only { display: none; }
+
+.page-enter-active { transition: opacity 0.22s var(--ease), transform 0.22s var(--ease); }
+.page-enter-from { opacity: 0; transform: translateY(5px); }
+
+/* --- Long words and figures must not force a page-wide scrollbar --- */
+.table td,
+.table-financial td,
+.card,
+.stack {
+  overflow-wrap: anywhere;
+}
+.num { overflow-wrap: normal; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* --- Print: reports go to paper or PDF without the chrome ---------- */
+@media print {
+  :root,
+  [data-theme='dark'] {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #ffffff;
+    --surface-3: #ffffff;
+    --text: #000000;
+    --text-muted: #333333;
+    --text-faint: #444444;
+    --line: #cccccc;
+    --line-strong: #999999;
+  }
+
+  body { background: #fff !important; }
+
+  /* Anything marked print-only appears here and nowhere else. */
+  .print-only { display: revert; }
+
+  /* Navigation, controls and anything marked no-print are dropped. */
+  .no-print,
+  aside,
+  .topbar,
+  .tabs,
+  .filters,
+  .pager {
+    display: none !important;
+  }
+
+  main { margin-left: 0 !important; }
+  .content { padding: 0 !important; max-width: none !important; }
+
+  .card,
+  .report {
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+
+  .table,
+  .table-financial {
+    font-size: 10pt;
+    background: #fff !important;
+    box-shadow: none !important;
+  }
+  .table th,
+  .table-financial th {
+    background: #f2f2f2 !important;
+    color: #000 !important;
+    border-bottom: 2px solid #999 !important;
+  }
+  tr { break-inside: avoid; }
+  thead { display: table-header-group; }
+
+  a[href]::after { content: ''; }
+
+  .card-premium::before { display: none; }
+}
+
+/* ===============================================================
+   Liquid glass
+   ---------------------------------------------------------------
+   Translucent surfaces only read as glass if there is something
+   behind them, so the page carries a soft ambient wash and the
+   chrome floats over it.
+
+   Every alpha here was chosen by compositing the surface over the
+   page and re-checking contrast: cards clear 4.5:1 on all six
+   palettes at 62% opaque, so 72% leaves headroom. The rail sits
+   higher because a dark panel over a light page washes out fast.
+   =============================================================== */
+
+:root {
+  --glass-card: 72%;
+  --glass-rail: 86%;
+  --glass-bar: 70%;
+  --glass-blur: saturate(180%) blur(20px);
+  --glass-edge: rgba(255, 255, 255, 0.55);
+  --glass-inner: inset 0 1px 0 var(--glass-edge);
+}
+
+[data-theme='dark'] {
+  --glass-card: 76%;
+  --glass-rail: 78%;
+  --glass-bar: 66%;
+  /* A bright hairline reads as cheap on dark; keep the edge barely there. */
+  --glass-edge: rgba(255, 255, 255, 0.09);
+}
+
+/* The ambient wash. Fixed, behind everything, and low enough in alpha
+   that it cannot meaningfully move any contrast ratio. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+          radial-gradient(46vw 46vw at 8% 6%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 70%),
+          radial-gradient(40vw 40vw at 92% 12%, color-mix(in srgb, var(--neutral) 10%, transparent), transparent 70%),
+          radial-gradient(52vw 52vw at 70% 92%, color-mix(in srgb, var(--positive) 9%, transparent), transparent 72%);
+  filter: blur(20px);
+  opacity: 0.9;
+}
+
+/* --- Glass surfaces ------------------------------------------------ */
+.card.card.card,
+.report.report.report {
+  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) var(--glass-card), transparent);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border-color: color-mix(in srgb, var(--line) 82%, transparent);
+  box-shadow: var(--shadow-2), var(--glass-inner);
+}
+
+/* EXCEPTION: Financial tables and premium cards stay solid for precision */
+.table-financial {
+  background: var(--surface);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.card-premium {
+  background: var(--surface);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* Rows and headers must stay see-through or the card turns solid again. */
+.table th {
+  background: color-mix(in srgb, var(--surface-2) 55%, transparent);
+}
+
+.table tbody tr:hover {
+  background: color-mix(in srgb, var(--surface-2) 70%, transparent);
+}
+
+.filters,
+.card-head {
+  background: transparent;
+}
+
+/* Inputs keep a little more body so text stays crisp against the wash. */
+.input,
+.select,
+.textarea {
+  background: color-mix(in srgb, var(--surface-2) 82%, transparent);
+}
+
+.btn-ghost.btn-ghost.btn-ghost {
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  -webkit-backdrop-filter: saturate(150%) blur(10px);
+  backdrop-filter: saturate(150%) blur(10px);
+}
+
+.skeleton {
+  opacity: 0.85;
+}
+
+/* --- Chrome -------------------------------------------------------- */
+.rm-rail.rm-rail.rm-rail {
+  background: var(--sidebar-bg);
+  background: color-mix(in srgb, var(--sidebar-bg) var(--glass-rail), transparent);
+  -webkit-backdrop-filter: saturate(160%) blur(24px);
+  backdrop-filter: saturate(160%) blur(24px);
+  box-shadow: var(--shadow-2), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.rm-top.rm-top.rm-top {
+  background: var(--bg);
+  background: color-mix(in srgb, var(--bg) var(--glass-bar), transparent);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border-bottom-color: color-mix(in srgb, var(--line) 70%, transparent);
+}
+
+.rm-search.rm-search.rm-search,
+.rm-collapse-top.rm-collapse-top.rm-collapse-top,
+.rm-menu.rm-menu.rm-menu {
+  background: color-mix(in srgb, var(--surface) 65%, transparent);
+  -webkit-backdrop-filter: saturate(150%) blur(10px);
+  backdrop-filter: saturate(150%) blur(10px);
+}
+
+/* --- Floating layers ----------------------------------------------- */
+.sheet.sheet.sheet,
+.palette.palette.palette,
+.panel.panel.panel {
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(30px);
+  backdrop-filter: saturate(180%) blur(30px);
+  box-shadow: var(--shadow-3), var(--glass-inner);
+}
+
+.scrim.scrim.scrim {
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.toast.toast.toast {
+  background: color-mix(in srgb, var(--sidebar-bg) 84%, transparent);
+  -webkit-backdrop-filter: saturate(170%) blur(18px);
+  backdrop-filter: saturate(170%) blur(18px);
+}
+
+.tabs.tabs.tabs,
+.switch.switch.switch,
+.swatches.swatches.swatches,
+.toggle.toggle.toggle {
+  background: color-mix(in srgb, var(--surface) 66%, transparent);
+  -webkit-backdrop-filter: saturate(150%) blur(12px);
+  backdrop-filter: saturate(150%) blur(12px);
+}
+
+/* Tiles deliberately stay opaque: they carry state colours of their own
+   (arrears, works, vacant) that a glass layer would out-specify, and a
+   glass tile inside a glass card reads as mud. */
+
+/* The hero metric stays a solid accent panel — it is the one surface whose
+   job is to be the loudest thing on screen. */
+.card.card.card.lead {
+  background: var(--accent);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-color: transparent;
+  box-shadow: var(--shadow-2);
+}
+
+/* --- When glass is unavailable or unwanted -------------------------
+   Older browsers, low-power devices and anyone who has asked their
+   system to reduce transparency get flat, fully opaque surfaces.
+   ------------------------------------------------------------------- */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .card.card.card,
+  .report.report.report,
+  .sheet.sheet.sheet,
+  .palette.palette.palette,
+  .panel.panel.panel,
+  .rm-rail.rm-rail.rm-rail,
+  .rm-top.rm-top.rm-top,
+  .toast.toast.toast,
+  .tabs.tabs.tabs,
+  .switch.switch.switch,
+  .swatches.swatches.swatches,
+  .toggle.toggle.toggle,
+  .rm-search.rm-search.rm-search,
+  .rm-collapse-top.rm-collapse-top.rm-collapse-top,
+  .rm-menu.rm-menu.rm-menu,
+  .btn-ghost.btn-ghost.btn-ghost,
+  .input,
+  .select,
+  .textarea {
+    background: var(--surface);
+    box-shadow: var(--shadow-2);
+  }
+  .rm-rail { background: var(--sidebar-bg); }
+  .rm-top { background: var(--bg); }
+  .toast { background: var(--sidebar-bg); }
+  body::before { display: none; }
+  .table-financial { background: var(--surface); }
+  .card-premium { background: var(--surface); }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .card.card.card,
+  .report.report.report,
+  .sheet.sheet.sheet,
+  .palette.palette.palette,
+  .panel.panel.panel,
+  .tabs.tabs.tabs,
+  .switch.switch.switch,
+  .swatches.swatches.swatches,
+  .toggle.toggle.toggle,
+  .btn-ghost.btn-ghost.btn-ghost,
+  .rm-search.rm-search.rm-search,
+  .rm-collapse-top.rm-collapse-top.rm-collapse-top,
+  .rm-menu.rm-menu.rm-menu {
+    background: var(--surface) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  .rm-rail { background: var(--sidebar-bg) !important; backdrop-filter: none !important; }
+  .rm-top { background: var(--bg) !important; backdrop-filter: none !important; }
+  .toast { background: var(--sidebar-bg) !important; backdrop-filter: none !important; }
+  .table th { background: var(--surface-2); }
+  .input, .select, .textarea { background: var(--surface-2); }
+  body::before { display: none; }
+  .table-financial { background: var(--surface) !important; }
+  .card-premium { background: var(--surface) !important; }
+}
+
+/* Paper has no glass. */
+@media print {
+  .card.card.card,
+  .report.report.report,
+  .sheet.sheet.sheet,
+  .rm-rail.rm-rail.rm-rail,
+  .rm-top.rm-top.rm-top,
+  .table-financial,
+  .card-premium {
+    background: #fff !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+  body::before { display: none !important; }
+}
